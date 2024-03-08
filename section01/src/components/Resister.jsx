@@ -4,7 +4,7 @@
 //3. 국적
 //4. 자기소개
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 const Resister = () => {
   const [input, setInput] = useState({
@@ -14,11 +14,26 @@ const Resister = () => {
     bio: "",
   });
 
+  const countRef = useRef(0);
+  const inputRef = useRef();
+
   const onChange = (e) => {
+    countRef.current++;
+    console.log(countRef.current);
+
     setInput({
       ...setInput,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const onSubmit = () => {
+    if (input.name === "") {
+      //이름을 입력하는 DOM 요소 포커스
+      // console.log(inputRef.current);
+      console.log(inputRef);
+      inputRef.current.focus();
+    }
   };
 
   // const onChangeName = (e) => {
@@ -53,6 +68,7 @@ const Resister = () => {
     <>
       <div>
         <input
+          ref={inputRef}
           name="name"
           placeholder="이름"
           onChange={onChange}
@@ -80,6 +96,7 @@ const Resister = () => {
       <div>
         <textarea name="bio" onChange={onChange} value={input.bio}></textarea>
       </div>
+      <button onClick={onSubmit}>제출</button>
     </>
   );
 };
